@@ -1,0 +1,24 @@
+
+ALTER TABLE purchase DROP CONSTRAINT IF EXISTS fk_purchase;
+ALTER TABLE sold_product DROP CONSTRAINT IF EXISTS fk_sold_product_purchase;
+ALTER TABLE sold_product DROP CONSTRAINT IF EXISTS fk_sold_product_prod;
+ALTER TABLE product DROP CONSTRAINT IF EXISTS fk_product_size;
+ALTER TABLE product DROP CONSTRAINT IF EXISTS fk_product_colour;
+ALTER TABLE product DROP CONSTRAINT IF EXISTS fk_product_category;
+ALTER TABLE account DROP CONSTRAINT IF EXISTS account_key;
+ALTER TABLE purchase DROP CONSTRAINT IF EXISTS purchase_key;
+ALTER TABLE purchase_status DROP CONSTRAINT IF EXISTS purchase_status_key;
+ALTER TABLE sold_product DROP CONSTRAINT IF EXISTS sold_product_key;
+ALTER TABLE product DROP CONSTRAINT IF EXISTS product_key;
+ALTER TABLE size DROP CONSTRAINT IF EXISTS size_key;
+ALTER TABLE colour DROP CONSTRAINT IF EXISTS colour_key;
+ALTER TABLE category DROP CONSTRAINT IF EXISTS category_key;
+
+DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS purchase;
+DROP TABLE IF EXISTS purchase_status;
+DROP TABLE IF EXISTS sold_product;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS size;
+DROP TABLE IF EXISTS colour;
+DROP TABLE IF EXISTS category;
