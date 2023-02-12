@@ -1,0 +1,18 @@
+<div class="container mt-4 mb-3" style="padding: 0 50px; margin:0 auto;">
+    <div class="row">
+        <div class="col">
+            <form action="/listing" method="get">
+                <% var searchCategory = ''; %>
+                <% if(locals.active){ %>
+                <% searchCategory = ' w aktualnej kategorii'; %>
+                <input type="hidden" name="id" value="<%= locals.active %>">
+                <% } %>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Wyszukaj produkt<%= searchCategory %>" aria-label="Wyszukaj produkt"
+                        aria-describedby="button-addon2" name="search">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Szukaj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

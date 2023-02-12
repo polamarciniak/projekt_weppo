@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-light mb-3" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Expert Mower</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/listing">Zobacz nasze produkty</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/basket">Koszyk (<span id="nav-basket"><%= locals.basketlength %></span>)</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-right">
+                <% if(locals.logged){ %>
+                    <% if(locals.isadmin) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Panel administratora</a>
+                        </li>
+                        <% } %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/account">Moje konto</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">Wyloguj</a>
+                            </li>
+                            <% }else{ %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/login">Zaloguj</a>
+                                </li>
+                                <li>
+                                    <div class="btn-nav">
+                                        <a class="btn btn-secondary btn-small navbar-btn" href="/register">Zarejestruj!</a>
+                                    </div>
+                                </li>
+                                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<%- include('static-alert'); %>

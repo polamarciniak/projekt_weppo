@@ -1,0 +1,72 @@
+<%- include('templates/head'); %>
+
+    <%- include('templates/nav'); %>
+
+        <div class="container">
+            <div class="row">
+                <h1 class="display-2"><%= user.username %></h1>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="lead">
+                        Ostatnie logowanie: <strong><%= user.last_login %></strong>
+                    </p>
+                    <p class="lead" style="margin: 5% 0px;">Status:
+                        <% if(user.isadmin) { %>
+                          <strong>
+                              Administrator
+                          </strong>
+                        <% } else { %>
+                          <strong>
+                              Zwykły użytkownik
+                          </strong>
+                        <% } %>
+                    </p>
+                    <form action="/admin/changeUserStatus/<%= user.id %>" method="POST" style="margin: 0 40% 0 0 ;">
+                        <select class="form-select" name="new_status" aria-label="Zmiana statusu">
+                            <option value=-1 selected>Wybierz nowy status</option>
+                            <option value=1>Zwykły użytkownik</option>
+                            <option value=2>Administrator</option>
+                        </select>
+                        <button type="submit" class="btn btn-secondary" style="margin-top: 5%;">Ustaw</button>
+                    </form>
+                </div>
+
+
+                <div class="col">
+                    <div class="list-group" style="margin: 1em 5em">
+                      <% for(i of orders) {%>
+                        <div class="list-group-item list-group-item-action flex-column align-items-start">
+                          <div class="row">
+                              <div class="col">
+                                  <div class="row">
+                                      <div class="d-flex w-100 justify-content-between">
+                                          <a role="button" href="/admin/order/<%= i.id %>" tabindex="0">
+                                              <h5 class="mb-1">Zamówienie #<%= i.id %></h5>
+                                          </a>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col">
+                                          <div class="row align-items-end">
+                                              <div class="col">
+                                                  <p class="fw text-end">Suma: <%= i.sum %> zł</p>
+                                              </div>
+                                          </div>
+                                          <div class="row">
+                                              <div class="col">
+                                                  <p class="fw-bold text-end">
+                                                      <%= i.status %>
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <% } %>
+                    </div>
+                </div>
+
+                <%- include('templates/end'); %>

@@ -1,0 +1,110 @@
+<%- include('templates/head'); %>
+
+<%- include('templates/nav'); %>
+
+<%- include('templates/searchbar'); %>
+
+<div class="container">
+        <div class="row">
+            <div class="col" id="alert">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>Kategorie</h3>
+                <div class="d-flex flex-wrap justify-content-left">
+                    <a role="button" href="/listing"
+                        <% if(!active){ %>
+                        class="btn btn-outline-secondary m-2 active">
+                        <% }else{ %>
+                            class="btn btn-outline-secondary m-2">
+                        <% } %>
+                        Wszystkie produkty
+                    </a>
+                    <% for(category of categories){ %>
+                        <a role="button" href="/listing?id=<%= category.id %>"
+                            <% if(active && active==category.id){ %>
+                                class="btn btn-outline-secondary m-2 active">
+                            <% }else{ %>
+                                class="btn btn-outline-secondary m-2">
+                            <% } %>
+                            <%= category.description %>
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>Produkty</h3>
+                <div class="d-flex flex-wrap justify-content-center">
+                    <% if(listing.length == 0){ %>
+                    <p>Brak produktów o żądanych parametrach.</p>
+                    <% } %>
+                    <% for(item of listing){ %>
+                        <div class="card" style="width: 18rem; margin: 15px ;">
+                            <a href="/product/<%= item.id %>">
+                                <img src="/uploads/<%= item.id %>.jpg" class="card-img-top" alt="item_photo"
+                                    style="height: 200px;">
+                            </a>
+                            <div class="card-body">
+                                <a href="/product/<%= item.id %>">
+                                    <h5 class="card-title">
+                                        <%= item.name %>
+                                    </h5>
+                                </a>
+                                <p class="card-text">
+                                    <%= item.price %> zł
+                                </p>
+                                <% if(item.status){ %>
+                                  <% if(item.amount> 0){ %>
+                                          <button id="add_to_basket" name="<%= item.id %>" type="button" class="btn btn-primary basket-button">
+                                              Dodaj do koszyka
+                                          </button>
+                                      <% }else{ %>
+                                          <button type="button" class="btn btn-secondary disabled">
+                                              Produkt chwilowo niedostępny
+                                          </button>
+                                      <% } %>
+                                  <% }else{ %>
+                                      <button type="button" class="btn btn-danger disabled">
+                                          Produkt wycofany
+                                      </button>
+                                  <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.querySelectorAll('.basket-button').forEach(elem => {
+        elem.addEventListener('click', event => {
+            var alert = document.getElementById('alert');
+            var counter = document.getElementById('nav-basket');
+            var req = new XMLHttpRequest();
+            req.open('post', '/api/add2basket', true);
+            req.onreadystatechange = function () {
+                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                    var resObj = JSON.parse(this.responseText);
+                    alert.innerHTML =
+                    `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        Dodano do koszyka: ${resObj.productName}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+                    counter.innerHTML = parseInt(counter.innerHTML) + 1;
+                }
+            }
+            var form = new FormData();
+            form.append('txtParam', elem.getAttribute('name'));
+            req.send(form);
+        })
+    });
+</script>
+
+<%- include('templates/end'); %>

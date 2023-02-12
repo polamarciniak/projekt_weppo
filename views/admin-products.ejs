@@ -1,0 +1,52 @@
+<%- include('templates/head'); %>
+
+<%- include('templates/nav'); %>
+
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h1 class="display-2">Wszystkie przedmioty</h1>
+                </div>
+                <div class="col-auto">
+                    <a role="button" href="/admin/addProduct" class="btn btn-success">Dodaj przedmiot</a>
+                </div>
+            </div>
+
+            <div class="list-group" style="margin: 1em 5em">
+              <% for(product of products) { %>
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex w-100 justify-content-between">
+                                <a href="/admin/product/<%= product.id %>" role="button" tabindex="0">
+                                    <h5 class="mb-1"><%= product.name %></h5>
+                                </a>
+                                <small><a href="/admin/changeStatus/<%= product.id %>" role="button" tabindex="0" style="color: #dc3545;">Zmień status</a></small>
+                            </div>
+                            <div class="row">
+                                <dd class="col-sm-9"><%= product.size %></dd>
+                            </div>
+                            <div class="row">
+                                <dd class="col-sm-9"><%= product.colour %></dd>
+                                <div class="col">
+                                  <% if(product.status) { %>
+                                    <p class="text-end">Status: Dostępny</p>
+                                  <% } else { %>
+                                    <p class="text-end">Status: Niedostępny</p>
+                                  <% } %>
+                              </div>
+                            </div>
+                            <div class="row">
+                                <dd class="col-sm-9"><%= product.category %></dd>
+                                <div class="col">
+                                    <p class="text-end">Cena: <%= product.price %> zł</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+            </div>
+        </div>
+
+<%- include('templates/end'); %>

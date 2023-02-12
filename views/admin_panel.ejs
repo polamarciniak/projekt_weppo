@@ -1,0 +1,117 @@
+<%- include('templates/head'); %>
+    <%- include('templates/nav'); %>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-3">Panel administratora</h1>
+                    <p class="display-6">
+                        <%= username %>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <a role="button" href="/admin/users" tabindex="0">
+                        <h1 class="display-6">Użytkownicy</h1>
+                    </a>
+                    <a role="button" href="/admin/products" tabindex="0">
+                        <h1 class="display-6">Produkty</h1>
+                    </a>
+                    <a role="button" href="/admin/orders" tabindex="0">
+                        <h1 class="display-6">Zamówienia</h1>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div style="margin-top: 5%;">
+                        <p class="lead">
+                            Kategorie produktów:
+                        </p>
+                    </div>
+                    <ul>
+                        <% for(category of categories) { %>
+                            <li>
+                                <div class="row">
+                                    <dt class="col">
+                                        <%= category.description %>
+                                    </dt>
+                                </div>
+                            </li>
+                            <% } %>
+                    </ul>
+
+                    <div style="margin-top: 5%;">
+                        <p class="lead">
+                            Rozmiary produktów:
+                        </p>
+                    </div>
+                    <ul>
+                        <% for(size of sizes) { %>
+                            <li>
+                                <div class="row">
+                                    <dt class="col">
+                                        <%= size.description %>
+                                    </dt>
+                                </div>
+                            </li>
+                            <% } %>
+                    </ul>
+
+                    <div style="margin-top: 5%;">
+                        <p class="lead">
+                            Kolory produktów:
+                        </p>
+                    </div>
+                    <ul>
+                        <% for(colour of colours) { %>
+                            <li>
+                                <div class="row">
+                                    <dt class="col">
+                                        <%= colour.description %>
+                                    </dt>
+                                </div>
+                            </li>
+                            <% } %>
+                    </ul>
+                </div>
+                <div class="col"></div>
+                <div class="col">
+                    <div class="row" style="margin-top: 5%;">
+                        <p class="lead">
+                            Dodaj nową kategorię:
+                        </p>
+                        <form action="/admin/addCategory" method="POST">
+                            <input class="form-control" type="text" name="new_category"
+                                placeholder="Nazwa nowej kategorii" aria-label="default input example">
+                            <button type="submit" class="btn btn-secondary" style="margin-top: 5%;">Dodaj</button>
+                        </form>
+                    </div>
+                    <div class="row" style="margin-top: 5%;">
+                        <p class="lead">
+                            Dodaj nowy rozmiar:
+                        </p>
+                        <form action="/admin/addSize" method="POST">
+                            <input class="form-control" type="text" name="new_size" placeholder="Nazwa nowej kategorii"
+                                aria-label="default input example">
+                            <button type="submit" class="btn btn-secondary" style="margin-top: 5%;">Dodaj</button>
+                        </form>
+                    </div>
+                    <div class="row" style="margin-top: 5%;">
+                        <p class="lead">
+                            Dodaj nowy kolor:
+                        </p>
+                        <form action="/admin/addColour" method="POST">
+                            <input class="form-control" type="text" name="new_colour"
+                                placeholder="Nazwa nowej kategorii" aria-label="default input example">
+                            <button type="submit" class="btn btn-secondary" style="margin-top: 5%;">Dodaj</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <%- include('templates/end'); %>

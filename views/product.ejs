@@ -1,0 +1,78 @@
+<%- include('templates/head'); %>
+
+<%- include('templates/nav'); %>
+
+<div class="container">
+    <div class="row">
+        <div class="col" id="alert">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="display-1"><%= product.name %> </h1>
+            <p class="lead">Cena: <%= product.price %></p>
+            <dl class="row">
+                <dt class="col-sm-3">Wielkość</dt>
+                <dd class="col-sm-9"><%= product.size %> </dd>
+
+                <dt class="col-sm-3">Kolor</dt>
+                <dd class="col-sm-9"><%= product.colour %> </dd>
+
+                <dt class="col-sm-3">Kategoria</dt>
+                <dd class="col-sm-9"><%= product.category %> </dd>
+
+                <dt class="col-sm-3 text-truncate">Opis produktu</dt>
+                <dd class="col-sm-9"><%= product.description %> </dd>
+            </dl>
+
+            <div class="row mb-5">
+                <div class="col">
+                <% if(product.status){ %>
+                            <button id="add_to_basket" name="<%= product.id %>" type="button" class="btn btn-primary">
+                                Dodaj do koszyka
+                            </button>
+                    <% }else{ %>
+                        <button type="button" class="btn btn-danger disabled">
+                            Produkt wycofany
+                        </button>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="col mt-5">
+            <div class="card" style="width: 300px; height: 300px;">
+                <img src="/uploads/<%= product.id %>.jpg"
+                    class="img rounded" alt="no-product-image">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var btn = document.getElementById('add_to_basket');
+    if(btn){
+        btn.addEventListener('click', event => {
+            var alert = document.getElementById('alert');
+            var counter = document.getElementById('nav-basket');
+            var req = new XMLHttpRequest();
+            req.open('post', '/api/add2basket', true);
+            req.onreadystatechange = function () {
+                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                    var resObj = JSON.parse(this.responseText);
+                    alert.innerHTML =
+                        `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        Dodano do koszyka: ${resObj.productName}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+                    counter.innerHTML = parseInt(counter.innerHTML) + 1;
+                }
+            }
+            var form = new FormData();
+            form.append('txtParam', btn.getAttribute('name'));
+            req.send(form);
+        });
+    }
+</script>
+
+<%- include('templates/end'); %>

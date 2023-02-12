@@ -1,0 +1,103 @@
+<%- include('templates/head'); %>
+    <%- include('templates/nav'); %>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-3">Moje konto</h1>
+                    <p class="display-6">Użytkownik: <%= username %></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <h1 class="display-6">Zmiana hasła</h1>
+                    <form action="/account/changepassword" method="post">
+                        <div class="mt-2">
+                            <label for="old_pass" class="form-label">Aktualne hasło</label>
+                            <input type="password" name="old_pass" id="old_pass" class="form-control">
+                        </div>
+                        <div class="mt-2">
+                            <label for="new_pass" class="form-label">Nowe hasło</label>
+                            <input type="password" name="new_pass" id="new_pass" class="form-control">
+                        </div>
+                        <div class="mt-2">
+                            <label for="repeat_pass" class="form-label">Powtórz nowe hasło</label>
+                            <input type="password" name="repeat_pass" id="repeat_pass" class="form-control">
+                        </div>
+                        <div class="mt-2">
+                            <!-- <button id='submit' type="submit" class="btn btn-primary">Zapisz</button> -->
+                            <button type="submit" class="btn btn-primary">Zmień hasło</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col">
+                    <h1 class="display-6">Zamówienia</h1>
+                    <div class="list-group" style="margin: 1em 5em">
+                      <% for(i of orders_list) {%>
+                        <div class="list-group-item list-group-item-action flex-column align-items-start">
+                          <div class="row">
+                              <div class="col">
+                                  <div class="row">
+                                      <div class="d-flex w-100 justify-content-between">
+                                          <a role="button" href="/order/<%= i.id %>" tabindex="0">
+                                              <h5 class="mb-1">Zamówienie #<%= i.id %></h5>
+                                          </a>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col">
+                                          <div class="row align-items-end">
+                                              <div class="col">
+                                                  <p class="fw text-end">Suma: <%= i.sum %> zł</p>
+                                              </div>
+                                          </div>
+                                          <div class="row">
+                                              <div class="col">
+                                                  <p class="fw-bold text-end">
+                                                      <%= i.status %>
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <% } %>
+                    </div>
+                  </div>
+
+                  <script>
+                    var btn = document.getElementById('submit');
+                    if(btn){
+                        btn.addEventListener('click', event => {
+                            var alert = document.getElementById('alert');
+                            var req = new XMLHttpRequest();
+                            req.open('post', '/account', true);
+                            if(pass_change){
+                                req.onreadystatechange = function () {
+                                    if (req.readyState == XMLHttpRequest.DONE) {
+                                        alert.innerHTML =
+                                            `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            Zmieniono hasło
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                          </div>`;
+                                    }
+                                }
+                            } else {
+                                  req.onreadystatechange = function () {
+                                     if (req.readyState == XMLHttpRequest.DONE) {
+                                        alert.innerHTML =
+                                            `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            Wpisano niepoprawne dane
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                          </div>`;
+                                      }
+                                  }
+                            }
+                        });
+                    }
+                </script>
+
+<%- include('templates/end'); %>

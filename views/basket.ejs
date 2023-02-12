@@ -1,0 +1,67 @@
+<%- include('templates/head'); %>
+
+    <%- include('templates/nav'); %>
+
+        <div class="container">
+            <div class="row">
+                <h1 class="display-1" style="text-align: center;">Koszyk</h1>
+            </div>
+
+            <% var sum = 0; %>
+
+            <div class="list-group" style="margin: 1em 5em">
+
+                <% for (product of basket){ %>
+                    <% var price = product.item.price; %>
+                    <% sum += price * product.amount; %>
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="row">
+                            <div class="col-6" style="width: auto;">
+                                <img src="/uploads/<%= product.item.id %>.jpg" class="figure-img img-fluid rounded-circle"
+                                    style="height: 100px; width: 100px;" alt="wine pic not found">
+                            </div>
+                            <div class="col">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <a role="button" href="/product/<%= product.item.id %>" tabindex="0">
+                                        <h5 class="mb-1"><%= product.item.name %> (<%= product.amount %>)</h5>
+                                    </a>
+                                    <small><a role="button" href="/api/remove/<%= product.item.id %>" tabindex="0">Usuń</a></small>
+                                </div>
+                                <div class="row">
+                                    <dd class="col-sm-9"><%= product.item.size %></dd>
+                                </div>
+                                <div class="row">
+                                    <dd class="col-sm-9"><%= product.item.colour %></dd>
+                                </div>
+                                <div class="row">
+                                    <dd class="col-sm-9"><%= product.item.category %></dd>
+                                    <div class="col">
+                                        <p class="text-end">Cena: <%= price %> zł</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+            <% if(locals.basket && basket.length > 0){ %>
+            <div class="row justify-content-end" style="margin: 50px 20px;">
+                <div class="col-auto">
+                    <h1 class="display-6"><%= Math.round(sum*100) / 100 %> zł</h1>
+                </div>
+                <div class="col-auto">
+                  <form action="/checkout" method="GET">
+                    <button type="submit" class="btn btn-success">Do płatności</button>
+                  </form>
+                </div>
+            </div>
+            <% }else{ %>
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <h5>Twój koszyk jest pusty.</h5>
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+        <%- include('templates/end'); %>

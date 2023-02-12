@@ -1,0 +1,158 @@
+<%- include('templates/head'); %>
+
+    <%- include('templates/nav'); %>
+
+        <div class="container">
+            <div class="row mb-3">
+                <h1 class="display-2">Edytuj produkt</h1>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <form method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="prodid" value="<%= product.id %>">
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">Nazwa:</p>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <input class="form-control" name="new_name" type="text" value="<%= product.name %>"
+                                        aria-label="default input example" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">Cena:</p>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <input class="form-control" name="new_price" type="number" value="<%= product.price %>" aria-label="default input example" required>
+                                    <span class="input-group-text">zł</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">Kategoria:</p>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="Zmiana kategorii" name="new_category" required>
+                                    <% for(let category of categories){ %>
+                                        <% if(category.id == product.category_id){ %>
+                                            <option value="<%= category.id %>" selected>
+                                                <%= category.description %>
+                                            </option>
+                                        <% }else{ %>
+                                            <option value="<%= category.id %>">
+                                                <%= category.description %>
+                                            </option>
+                                        <% } %>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">Kolor:</p>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="Zmiana koloru" name="new_colour" required>
+                                    <% for(let colour of colours){ %>
+                                        <% if(colour.id==product.colour_id){ %>
+                                            <option value="<%= colour.id %>" selected>
+                                                <%= colour.description %>
+                                            </option>
+                                        <% }else{ %>
+                                            <option value="<%= colour.id %>">
+                                                <%= colour.description %>
+                                            </option>
+                                        <% } %>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">Wielkość:</p>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="Zmiana wielkości" name="new_size" required>
+                                    <% for(let size of sizes){ %>
+                                        <% if(size.id==product.size_id){ %>
+                                            <option value="<%= size.id %>" selected>
+                                                <%= size.description %>
+                                            </option>
+                                        <% }else{ %>
+                                            <option value="<%= size.id %>">
+                                                <%= size.description %>
+                                            </option>
+                                        <% } %>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">Liczba sztuk:</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="number" value="<%= product.amount %>"
+                                    aria-label="default input example" name="new_amount" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">Status:</p>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" aria-label="Zmiana statusu" name="new_status" required>
+                                    <% if(product.status){ %>
+                                        <option value="true" selected>Dostępny</option>
+                                        <option value="false">Niedostępny</option>
+                                    <% }else{ %>
+                                        <option value="true">Dostępny</option>
+                                        <option value="false" selected>Niedostępny</option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">Opis:</p>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                                    rows="3" name="new_description"><%= product.description %></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="lead">Zdjęcie produktu:</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="file" id="formFile" name="new_pic">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 20px">Zapisz</button>
+                    </form>
+                </div>
+
+                <div class="col">
+                    <div class="row text-end mt-3">
+                        <div class="col">
+                            <p class="lead">Aktualne zdjęcie produktu:</p>
+                            <img src="/uploads/<%= product.id %>.jpg" class="figure-img img-fluid" alt="wine pic not found">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('templates/end'); %>
